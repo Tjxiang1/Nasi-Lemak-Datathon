@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src = "script.js" defer></script>
+</head>
+<body>
+    <h1>Nasi Lemak</h1>
+
+    <h2>Top tags</h2>
+    <img src="topHashtag.png" width="700" height="350">
+    <h2>Top likes based on tags</h2>
+    <img src="topView.png" width="700" height="350">
+    <h2>Top views based on tags</h2>
+    <img src="topLike.png" width="700" height="350">
+
+    <p>Enter the keyword you want to search</p> 
+    <form action="/search" method="POST">
+        <input id="keyword" type="text" name="keyword" placeholder="eg:hair, makeup">
+        <button id="submit" type="submit">Submit</button>
+    </form>
+    
+    <p>Enter the keyword you want to compare</p>
+    <form action="/compare" method="POST">
+        <input id="keyword" type="text" name="keyword" placeholder="eg:hair, makeup">
+        <button id="submit" type="submit">Submit</button>
+    </form>
+    
+    
+    <h2 id="search"></h2>
+    <p id="output"></p>
+
+    <% if (typeof imagePaths != 'undefined') { %>
+        <h2>Results for #<%= locals.keyWord %></h2>
+        <h2>Comparing <%= locals.keyWords %></h2>
+    <%      imagePaths.forEach((imagePath) => { %>
+                <img src = "<%= imagePath %>" width="700" height="350">
+                <br>
+    <%  }); %>
+    <% } %>
+
+
+</body>
+</html>

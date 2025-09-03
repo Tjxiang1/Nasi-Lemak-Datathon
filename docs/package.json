@@ -1,0 +1,28 @@
+{
+  "name": "monash",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "devStart": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tjxiang1/Nasi-Lemak-Datathon.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tjxiang1/Nasi-Lemak-Datathon/issues"
+  },
+  "homepage": "https://github.com/Tjxiang1/Nasi-Lemak-Datathon#readme",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.11.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
