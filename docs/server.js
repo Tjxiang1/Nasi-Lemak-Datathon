@@ -34,8 +34,9 @@ app
 
     })
 
-const keywords = [];
+
 app.post('/compare', async (req, res) =>{
+    keywords = []
     keywords.push(req.body.keyword);
 
     try{

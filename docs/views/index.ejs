@@ -3,44 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Nasi Lemak - Social Media Analytics Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
     <script src = "script.js" defer></script>
 </head>
 <body>
-    <h1>Nasi Lemak</h1>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header fade-in">
+            <h1>Nasi Lemak Analytics</h1>
+            <p>Social Media Engagement Dashboard - Analyze hashtag performance and trends</p>
+        </div>
 
-    <h2>Top tags</h2>
-    <img src="topHashtag.png" width="700" height="350">
-    <h2>Top likes based on tags</h2>
-    <img src="topView.png" width="700" height="350">
-    <h2>Top views based on tags</h2>
-    <img src="topLike.png" width="700" height="350">
+        <!-- Analytics Overview Section -->
+        <div class="section fade-in">
+            <h2>📊 Analytics Overview</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>🏆 Top Performing Tags</h3>
+                    <div class="chart-container">
+                        <img src="topHashtag.png" alt="Top Hashtags Chart">
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>❤️ Top Likes by Tags</h3>
+                    <div class="chart-container">
+                        <img src="topLike.png" alt="Top Likes Chart">
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>👀 Top Views by Tags</h3>
+                    <div class="chart-container">
+                        <img src="topView.png" alt="Top Views Chart">
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <p>Enter the keyword you want to search</p> 
-    <form action="/search" method="POST">
-        <input id="keyword" type="text" name="keyword" placeholder="eg:hair, makeup">
-        <button id="submit" type="submit">Submit</button>
-    </form>
-    
-    <p>Enter the keyword you want to compare</p>
-    <form action="/compare" method="POST">
-        <input id="keyword" type="text" name="keyword" placeholder="eg:hair, makeup">
-        <button id="submit" type="submit">Submit</button>
-    </form>
-    
-    
-    <h2 id="search"></h2>
-    <p id="output"></p>
+        <!-- Search Section -->
+        <div class="form-section fade-in">
+            <h2>🔍 Search Analytics</h2>
+            <p style="margin-bottom: 20px; color: #7f8c8d;">Enter a keyword to analyze its engagement performance</p>
+            <form action="/search" method="POST">
+                <div class="form-group">
+                    <label for="search-keyword">Keyword to Search:</label>
+                    <input id="search-keyword" type="text" name="keyword" placeholder="e.g., hair, makeup, skincare, fashion">
+                </div>
+                <button class="btn" type="submit">🔍 Analyze Keyword</button>
+            </form>
+        </div>
 
-    <% if (typeof imagePaths != 'undefined') { %>
-        <h2>Results for #<%= locals.keyWord %></h2>
-        <h2>Comparing <%= locals.keyWords %></h2>
-    <%      imagePaths.forEach((imagePath) => { %>
-                <img src = "<%= imagePath %>" width="700" height="350">
-                <br>
-    <%  }); %>
-    <% } %>
+        <!-- Compare Section -->
+        <div class="form-section fade-in">
+            <h2>⚖️ Compare Keywords</h2>
+            <p style="margin-bottom: 20px; color: #7f8c8d;">Enter multiple keywords separated by commas to compare their performance</p>
+            <form action="/compare" method="POST">
+                <div class="form-group">
+                    <label for="compare-keywords">Keywords to Compare:</label>
+                    <input id="compare-keywords" type="text" name="keyword" placeholder="e.g., hair, makeup, skincare">
+                </div>
+                <button class="btn" type="submit">⚖️ Compare Keywords</button>
+            </form>
+        </div>
 
+        <!-- Results Section -->
+        <div id="search-results" style="display: none;">
+            <h2 id="search"></h2>
+            <p id="output"></p>
+        </div>
 
+        <!-- Dynamic Results -->
+        <% if (typeof imagePaths != 'undefined') { %>
+            <div class="results-section fade-in">
+                <h2>📈 Analysis Results</h2>
+                <% if (locals.keyWord) { %>
+                    <h3>Results for #<%= locals.keyWord %></h3>
+                <% } %>
+                <% if (locals.keyWords) { %>
+                    <h3>Comparing: <%= locals.keyWords %></h3>
+                <% } %>
+                
+                <div class="grid">
+                    <% imagePaths.forEach((imagePath) => { %>
+                        <div class="card">
+                            <div class="chart-container">
+                                <img src="<%= imagePath %>" alt="Analytics Chart">
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        <% } %>
+
+    </div>
+
+    <!-- Modal for enlarged charts -->
+    <div id="chartModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Chart View</h3>
+                <span class="close">&times;</span>
+            </div>
+            <img id="modalImage" class="modal-image" src="" alt="Enlarged Chart">
+        </div>
+    </div>
+
+    <script>
+        // Add fade-in animation to elements as they come into view
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.fade-in');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            elements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+
+            // Form submission feedback
+            const forms = document.querySelectorAll('form');
+            forms.forEach(form => {
+                form.addEventListener('submit', function() {
+                    const button = this.querySelector('.btn');
+                    const originalText = button.textContent;
+                    button.textContent = '⏳ Analyzing...';
+                    button.disabled = true;
+                    
+                    // Re-enable after 3 seconds (in case of errors)
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                        button.disabled = false;
+                    }, 3000);
+                });
+            });
+
+            // Modal functionality for charts
+            const modal = document.getElementById('chartModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('modalTitle');
+            const closeBtn = document.getElementsByClassName('close')[0];
+
+            // Add click event to all chart images
+            const chartImages = document.querySelectorAll('.chart-container img');
+            chartImages.forEach(img => {
+                img.addEventListener('click', function() {
+                    modal.style.display = 'block';
+                    modalImage.src = this.src;
+                    
+                    // Get the chart title from the parent card
+                    const cardTitle = this.closest('.card').querySelector('h3');
+                    if (cardTitle) {
+                        modalTitle.textContent = cardTitle.textContent;
+                    } else {
+                        modalTitle.textContent = 'Chart View';
+                    }
+                    
+                    // Prevent body scroll when modal is open
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+
+            // Close modal when clicking the X
+            closeBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+
+            // Close modal when clicking outside the modal content
+            modal.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && modal.style.display === 'block') {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
