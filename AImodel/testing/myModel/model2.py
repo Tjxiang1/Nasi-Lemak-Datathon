@@ -212,7 +212,7 @@ if __name__ == "__main__":
     
     # Test predictions
     print("\n🧪 Testing predictions:")
-    test_tags = ['makeup', 'skincare', 'hair', 'fashion', 'beauty']
+    test_tags = ['makeup']
     
     for tag in test_tags:
         result = predict_tag_trend(tag, model, vectorizer, scaler)
