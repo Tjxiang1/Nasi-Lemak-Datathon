@@ -1,12 +1,14 @@
 from flask import Flask, request, jsonify
 from generateGraph import main as generate_graph
+from firstModel.runModel import main as runModel
 
 app = Flask(__name__)
 
 @app.route('/generateGraph', methods=['GET'])
 def searchGraph():
     keyword = request.args.get('keyword')
-    result = generate_graph([keyword])
+    result = runModel(keyword)
+    result['pngLink'] = generate_graph([keyword])
 
     return jsonify(result)
 

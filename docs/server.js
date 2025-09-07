@@ -25,8 +25,9 @@ app
             const response = await axios.get('http://localhost:5000/generateGraph', {
                 params: {keyword}
             })
-            console.log(response.data);
-            res.render('index', { imagePaths: response.data , keyWord: keyword})
+            info = response.data;
+            //console.log(info)
+            res.render('index', info)
         } 
         catch(error){
             res.status(500).send("Error connecting with Python API");
@@ -43,7 +44,7 @@ app.post('/compare', async (req, res) =>{
         const response = await axios.get('http://localhost:5000/compareGraph?' + 
             `keywords=${encodeURIComponent(keywords.join(','))}`
         )
-        console.log(response.data);
+        //console.log(response.data);
         res.render('index', { imagePaths: response.data , keyWords: keywords})
     } 
     catch(error){
