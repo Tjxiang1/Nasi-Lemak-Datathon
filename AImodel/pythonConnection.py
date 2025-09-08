@@ -17,8 +17,10 @@ def searchGraph():
 def compareGraph():
     keywords_str = request.args.get('keywords')
     keywords = keywords_str.split(', ')
-    print(keywords)
-    result = generate_graph(keywords)
+    result = {
+        'tags': keywords,
+        'pngLink': generate_graph(keywords)
+        }
 
     return jsonify(result)
 

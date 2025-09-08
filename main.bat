@@ -1,0 +1,6 @@
+@echo off 
+echo Starting Express server...
+start cmd /k "cd /d %~dp0docs && npm run devStart"
+
+echo Starting Flask server... 
+start cmd /k "cd /d %~dp0AImodel && call .venv\Scripts\activate.bat && python pythonConnection.py"

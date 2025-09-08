@@ -20,7 +20,6 @@ app
     })
     .post(async (req, res) => {
         const keyword = req.body.keyword;
-
         try{
             const response = await axios.get('http://localhost:5000/generateGraph', {
                 params: {keyword}
@@ -44,8 +43,9 @@ app.post('/compare', async (req, res) =>{
         const response = await axios.get('http://localhost:5000/compareGraph?' + 
             `keywords=${encodeURIComponent(keywords.join(','))}`
         )
-        //console.log(response.data);
-        res.render('index', { imagePaths: response.data , keyWords: keywords})
+        info = response.data;
+        //console.log(info);
+        res.render('index', info)
     } 
     catch(error){
         res.status(500).send("Error connecting with Python API");
