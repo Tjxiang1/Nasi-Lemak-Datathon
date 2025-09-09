@@ -1,3 +1,18 @@
+# Content description for directories
+**/AImodel**
+- source code for training of machine learning model
+- covers backend logic for dashboard decision making
+- cleaned dataset used for model training
+- requirements.txt contains required Python libraries
+
+**/Data Preprocessing**
+- .ipynb codes that covers entire Data Cleaning process and Exploratory Data Analysis
+
+**/docs**
+- source code to dashboard web development
+- contains relevant libraries and files for dashboard setup
+
+# Steps to setup the dashboard
 1. Prerequisites 
     - NodeJS
     - Python
